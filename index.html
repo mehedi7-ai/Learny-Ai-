@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messenger Chatbot Curl Command by Learny AI Academy</title>
+  <style>
+    /* Premium Modern Developer Theme Variables */
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: #131c31;
+      --card-bg-hover: #17233d;
+      --text-color: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border-color: #1e293b;
+      --accent-color: #3b82f6;
+      --accent-hover: #2563eb;
+      --accent-glow: rgba(59, 130, 246, 0.25);
+      --code-bg: #070b13;
+      --table-header-bg: #0e1626;
+      --table-row-hover: #1b2640;
+      --input-bg: #0f172a;
+      --input-text: #ffffff;
+      --input-border: #334155;
+      --success-color: #10b981;
+      --success-glow: rgba(16, 185, 129, 0.2);
+      --shadow-color: rgba(0, 0, 0, 0.5);
+      --warning-bg: rgba(245, 158, 11, 0.1);
+      --warning-border: rgba(245, 158, 11, 0.3);
+      --warning-text: #f59e0b;
+      
+      /* Syntax Highlighting (Dark Theme Default) */
+      --syn-cmd: #60a5fa;
+      --syn-opt: #c084fc;
+      --syn-str: #34d399;
+      --syn-key: #fb7185;
+      --syn-val: #fbbf24;
+      --syn-ph-bg: rgba(239, 68, 68, 0.15);
+      --syn-ph-border: rgba(239, 68, 68, 0.4);
+      --syn-ph-text: #f87171;
+      --syn-ph-cust-bg: rgba(16, 185, 129, 0.15);
+      --syn-ph-cust-border: rgba(16, 185, 129, 0.4);
+      --syn-ph-cust-text: #34d399;
+    }
+
+    [data-theme="light"] {
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --card-bg-hover: #f1f5f9;
+      --text-color: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --accent-color: #2563eb;
+      --accent-hover: #1d4ed8;
+      --accent-glow: rgba(37, 99, 235, 0.15);
+      --code-bg: #f1f5f9;
+      --table-header-bg: #e2e8f0;
+      --table-row-hover: #f8fafc;
+      --input-bg: #ffffff;
+      --input-text: #1e293b;
+      --input-border: #cbd5e1;
+      --success-color: #059669;
+      --success-glow: rgba(5, 150, 105, 0.15);
+      --shadow-color: rgba(0, 0, 0, 0.06);
+      --warning-bg: rgba(217, 119, 6, 0.08);
+      --warning-border: rgba(217, 119, 6, 0.25);
+      --warning-text: #b45309;
+
+      /* Syntax Highlighting (Light Theme) */
+      --syn-cmd: #1d4ed8;
+      --syn-opt: #7c3aed;
+      --syn-str: #047857;
+      --syn-key: #b91c1c;
+      --syn-val: #b45309;
+      --syn-ph-bg: rgba(220, 38, 38, 0.08);
+      --syn-ph-border: rgba(220, 38, 38, 0.3);
+      --syn-ph-text: #dc2626;
+      --syn-ph-cust-bg: rgba(5, 150, 105, 0.08);
+      --syn-ph-cust-border: rgba(5, 150, 105, 0.3);
+      --syn-ph-cust-text: #059669;
+    }
+
+    /* Core Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      padding-bottom: 80px;
+    }
+
+    /* Header & Navbar */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: rgba(11, 15, 25, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    [data-theme="light"] header {
+      background-color: rgba(248, 250, 252, 0.85);
+    }
+
+    .navbar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.025em;
+      color: var(--text-color);
+      text-decoration: none;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.2));
+    }
+
+    .brand-logo svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .brand:hover .brand-logo {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.45));
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .nav-btn:hover {
+      background-color: var(--card-bg-hover);
+      border-color: var(--accent-color);
+      transform: translateY(-1px);
+    }
+
+    .nav-btn:active {
+      transform: translateY(1px);
+    }
+
+    /* Icon size */
+    .icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Tooltip */
+    .tooltip {
+      position: absolute;
+      bottom: -36px;
+      left: 50%;
+      transform: translateX(-50%) translateY(5px);
+      background-color: #1e293b;
+      color: #ffffff;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-btn:hover .tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Main Container */
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Intro / Hero Section */
+    .intro-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px -15px var(--shadow-color);
+    }
+
+    .intro-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-color), #818cf8);
+    }
+
+    .intro-header-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .intro-tag {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--accent-glow);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      color: var(--accent-color);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.025em;
+    }
+
+    .main-heading {
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.25;
+      color: var(--text-color);
+    }
+
+    .main-heading span {
+      background: linear-gradient(135deg, var(--accent-color) 0%, #60a5fa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .sub-heading {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--accent-color);
+      margin-top: 8px;
+    }
+
+    .intro-description {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-top: 12px;
+      max-width: 750px;
+    }
+
+    /* Code Block Section */
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .code-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px -5px var(--shadow-color);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .code-card:hover {
+      border-color: var(--accent-color);
+      box-shadow: 0 8px 30px -8px var(--accent-glow);
+    }
+
+    .code-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+      background-color: var(--table-header-bg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .code-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .copy-btn {
+      background-color: var(--bg-color);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .copy-btn:hover {
+      background-color: var(--card-bg-hover);
+      color: var(--text-color);
+      border-color: var(--accent-color);
+    }
+
+    .copy-btn.copied {
+      background-color: var(--success-glow);
+      border-color: var(--success-color);
+      color: var(--success-color);
+    }
+
+    .code-body {
+      padding: 20px;
+      background-color: var(--code-bg);
+      position: relative;
+    }
+
+    pre {
+      font-family: "JetBrains Mono", "Fira Code", Consolas, Monaco, monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      color: var(--text-color);
+      line-height: 1.5;
+    }
+
+    code {
+      font-family: inherit;
+    }
+
+    /* Manual Syntax Highlighting styles */
+    .token-cmd { color: var(--syn-cmd); font-weight: 600; }
+    .token-opt { color: var(--syn-opt); }
+    .token-str { color: var(--syn-str); }
+    .token-key { color: var(--syn-key); }
+    .token-val { color: var(--syn-val); }
+    
+    .token-ph {
+      background-color: var(--syn-ph-bg);
+      border: 1px dashed var(--syn-ph-border);
+      color: var(--syn-ph-text);
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-weight: 600;
+      display: inline-block;
+      transition: all 0.2s ease;
+    }
+
+    .token-ph.customized {
+      background-color: var(--syn-ph-cust-bg);
+      border: 1px solid var(--syn-ph-cust-border);
+      color: var(--syn-ph-cust-text);
+      text-decoration: underline;
+    }
+
+    /* Interactive Table Section */
+    .table-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 4px 25px -10px var(--shadow-color);
+    }
+
+    .table-description {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .responsive-table-wrapper {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th {
+      background-color: var(--table-header-bg);
+      color: var(--text-color);
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    td {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.95rem;
+      vertical-align: middle;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background-color: var(--table-row-hover);
+    }
+
+    .table-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--syn-ph-text);
+      background-color: var(--syn-ph-bg);
+      border: 1px solid var(--syn-ph-border);
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .table-input {
+      width: 100%;
+      background-color: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--input-text);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .table-input:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px var(--accent-glow);
+    }
+
+    .table-input.has-value {
+      border-color: var(--success-color);
+    }
+
+    /* Warning Style Note */
+    .warning-box {
+      margin-top: 20px;
+      background-color: var(--warning-bg);
+      border: 1px solid var(--warning-border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: var(--warning-text);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .warning-icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Notes Section */
+    .notes-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 4px 25px -10px var(--shadow-color);
+    }
+
+    .notes-list {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .notes-list li {
+      position: relative;
+      padding-left: 28px;
+      font-size: 0.95rem;
+      color: var(--text-color);
+    }
+
+    .notes-list li::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 10px;
+      width: 6px;
+      height: 6px;
+      background-color: var(--accent-color);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--accent-color);
+    }
+
+    /* Credit Section */
+    .credit-box {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      max-width: 320px;
+      margin: 0 auto;
+      box-shadow: 0 4px 15px -5px var(--shadow-color);
+      border-left: 4px solid var(--accent-color);
+      border-right: 4px solid var(--accent-color);
+    }
+
+    .credit-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+
+    .credit-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent-color);
+    }
+
+    /* Bottom Action Buttons */
+    .action-container {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .action-btn {
+      background-color: var(--accent-color);
+      color: #ffffff;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+
+    .action-btn:hover {
+      background-color: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--accent-glow);
+    }
+
+    .action-btn:active {
+      transform: translateY(0);
+    }
+
+    .action-btn.secondary {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      box-shadow: 0 4px 12px var(--shadow-color);
+    }
+
+    .action-btn.secondary:hover {
+      background-color: var(--card-bg-hover);
+      border-color: var(--accent-color);
+    }
+
+    .action-btn.copied {
+      background-color: var(--success-color);
+      box-shadow: 0 4px 14px var(--success-glow);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 30px 24px;
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .footer-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Responsive adjustment */
+    @media (max-width: 640px) {
+      .navbar {
+        padding: 12px 16px;
+      }
+      .brand {
+        font-size: 1rem;
+      }
+      main {
+        margin: 20px auto;
+        padding: 0 16px;
+        gap: 28px;
+      }
+      .intro-card {
+        padding: 24px;
+      }
+      .main-heading {
+        font-size: 1.45rem;
+      }
+      .sub-heading {
+        font-size: 1.05rem;
+      }
+      .code-header {
+        padding: 12px 16px;
+      }
+      .code-body {
+        padding: 16px;
+      }
+      pre {
+        font-size: 0.8rem;
+      }
+      td, th {
+        padding: 10px 14px;
+        font-size: 0.85rem;
+      }
+      .table-badge {
+        font-size: 0.75rem;
+        padding: 2px 6px;
+      }
+      .action-container {
+        flex-direction: column;
+        width: 100%;
+      }
+      .action-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+
+  <!-- Sticky Navbar -->
+  <header>
+    <div class="navbar">
+      <a href="#" class="brand">
+        <div class="brand-logo">
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 62 V0 H28 A16 16 0 0 1 44 16 V62 Z" fill="currentColor"/>
+            <rect x="12" y="68" width="32" height="32" fill="#38bdf8" rx="0"/>
+            <path d="M50 100 V68 H79 A16 16 0 0 1 95 84 V100 Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <span>Learny AI Academy</span>
+      </a>
+      <div class="nav-actions">
+        <!-- Theme Toggle -->
+        <button class="nav-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+          <svg id="theme-icon-sun" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+          <svg id="theme-icon-moon" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
+          <span class="tooltip">Toggle Theme</span>
+        </button>
+        <!-- Copy All -->
+        <button id="btn-copy-all" class="nav-btn" onclick="copyAllContent()" aria-label="Copy All Code Blocks">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+          </svg>
+          <span class="tooltip">Copy All Code</span>
+        </button>
+        <!-- Share -->
+        <button id="btn-share" class="nav-btn" onclick="shareLink()" aria-label="Share Link">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+          </svg>
+          <span class="tooltip">Copy URL</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main>
+    <!-- Intro Section -->
+    <div id="intro" class="intro-card">
+      <div class="intro-header-container">
+        <div class="intro-tag">
+          <span>📩</span> Facebook Graph API (v23)
+        </div>
+        <h1 class="main-heading">
+          MESSENGER CHATBOT CURL COMMAND BY LEARNY AI ACADEMY
+        </h1>
+        <h2 class="sub-heading">
+          Send Text, Image & Video Using Facebook Graph API (v23)
+        </h2>
+        <p class="intro-description">
+          This guide shows simple cURL commands to send text, image, and video messages using Facebook Graph API v23.
+        </p>
+      </div>
+    </div>
+
+    <!-- Code Blocks Header -->
+    <div>
+      <h2 class="section-title">🚀 cURL Command Templates</h2>
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+
+        <!-- CODE BLOCK 1 -->
+        <div class="code-card">
+          <div class="code-header">
+            <div class="code-title">✅ 1) Send Text Message</div>
+            <button class="copy-btn" onclick="copyCode(this, 'code1')">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+              </svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <div class="code-body">
+            <pre id="code1"><code><span class="token-cmd">curl</span> <span class="token-opt">-X</span> POST <span class="token-str">"https://graph.facebook.com/v23.0/<span class="token-ph" data-ph="PAGE_ID">&lt;PAGE_ID&gt;</span>/messages"</span> \
+  <span class="token-opt">-H</span> <span class="token-str">"Authorization: Bearer <span class="token-ph" data-ph="PAGE_ACCESS_TOKEN">&lt;PAGE_ACCESS_TOKEN&gt;</span>"</span> \
+  <span class="token-opt">-H</span> <span class="token-str">"Content-Type: application/json"</span> \
+  <span class="token-opt">-d</span> <span class="token-str">'{ "messaging_type": "RESPONSE", "recipient": { "id": "<span class="token-ph" data-ph="USER_ID">&lt;USER_ID&gt;</span>" }, "message": { "text": "Hello from Graph API v23!" } }'</span></code></pre>
+          </div>
+        </div>
+
+        <!-- CODE BLOCK 2 -->
+        <div class="code-card">
+          <div class="code-header">
+            <div class="code-title">🖼️ 2) Send Image Message</div>
+            <button class="copy-btn" onclick="copyCode(this, 'code2')">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+              </svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <div class="code-body">
+            <pre id="code2"><code><span class="token-cmd">curl</span> <span class="token-opt">-X</span> POST <span class="token-str">"https://graph.facebook.com/v23.0/<span class="token-ph" data-ph="PAGE_ID">&lt;PAGE_ID&gt;</span>/messages"</span> \
+  <span class="token-opt">-H</span> <span class="token-str">"Authorization: Bearer <span class="token-ph" data-ph="PAGE_ACCESS_TOKEN">&lt;PAGE_ACCESS_TOKEN&gt;</span>"</span> \
+  <span class="token-opt">-H</span> <span class="token-str">"Content-Type: application/json"</span> \
+  <span class="token-opt">-d</span> <span class="token-str">'{ "recipient": { "id": "<span class="token-ph" data-ph="USER_ID">&lt;USER_ID&gt;</span>" }, "message": { "attachment": { "type": "image", "payload": { "url": "<span class="token-ph" data-ph="IMAGE_URL">&lt;IMAGE_URL&gt;</span>", "is_reusable": true } } } }'</span></code></pre>
+          </div>
+        </div>
+
+        <!-- CODE BLOCK 3 -->
+        <div class="code-card">
+          <div class="code-header">
+            <div class="code-title">🎥 3) Send Video Message</div>
+            <button class="copy-btn" onclick="copyCode(this, 'code3')">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+              </svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <div class="code-body">
+            <pre id="code3"><code><span class="token-cmd">curl</span> <span class="token-opt">-X</span> POST <span class="token-str">"https://graph.facebook.com/v23.0/<span class="token-ph" data-ph="PAGE_ID">&lt;PAGE_ID&gt;</span>/messages"</span> \
+  <span class="token-opt">-H</span> <span class="token-str">"Authorization: Bearer <span class="token-ph" data-ph="PAGE_ACCESS_TOKEN">&lt;PAGE_ACCESS_TOKEN&gt;</span>"</span> \
+  <span class="token-opt">-H</span> <span class="token-str">"Content-Type: application/json"</span> \
+  <span class="token-opt">-d</span> <span class="token-str">'{ "recipient": { "id": "<span class="token-ph" data-ph="USER_ID">&lt;USER_ID&gt;</span>" }, "message": { "attachment": { "type": "video", "payload": { "url": "<span class="token-ph" data-ph="VIDEO_URL">&lt;VIDEO_URL&gt;</span>", "is_reusable": true } } } }'</span></code></pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Replace Values Section -->
+    <div id="values-table" class="table-card">
+      <h2 class="section-title">📋 Replace With Your Values</h2>
+      <p class="table-description">Type your parameters directly into the input fields below to dynamically update the cURL commands in real-time.</p>
+      
+      <div class="responsive-table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 25%">Placeholder</th>
+              <th style="width: 35%">Meaning</th>
+              <th style="width: 40%">Your Custom Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="table-badge">&lt;PAGE_ID&gt;</span></td>
+              <td>Your Facebook Page ID</td>
+              <td>
+                <input type="text" class="table-input" placeholder="e.g. 10984719472" data-ph-input="PAGE_ID" aria-label="Page ID">
+              </td>
+            </tr>
+            <tr>
+              <td><span class="table-badge">&lt;PAGE_ACCESS_TOKEN&gt;</span></td>
+              <td>Your Page Access Token</td>
+              <td>
+                <input type="text" class="table-input" placeholder="e.g. EAAGm..." data-ph-input="PAGE_ACCESS_TOKEN" aria-label="Page Access Token">
+              </td>
+            </tr>
+            <tr>
+              <td><span class="table-badge">&lt;USER_ID&gt;</span></td>
+              <td>Recipient PSID</td>
+              <td>
+                <input type="text" class="table-input" placeholder="e.g. 64284729472" data-ph-input="USER_ID" aria-label="User ID">
+              </td>
+            </tr>
+            <tr>
+              <td><span class="table-badge">&lt;IMAGE_URL&gt;</span></td>
+              <td>Direct Image Link</td>
+              <td>
+                <input type="text" class="table-input" placeholder="e.g. https://example.com/pic.jpg" data-ph-input="IMAGE_URL" aria-label="Image URL">
+              </td>
+            </tr>
+            <tr>
+              <td><span class="table-badge">&lt;VIDEO_URL&gt;</span></td>
+              <td>Direct Video Link</td>
+              <td>
+                <input type="text" class="table-input" placeholder="e.g. https://example.com/video.mp4" data-ph-input="VIDEO_URL" aria-label="Video URL">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Warning Note -->
+      <div class="warning-box">
+        <svg class="warning-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <span>Videos/images must be hosted and publicly accessible.</span>
+      </div>
+    </div>
+
+    <!-- Notes Section -->
+    <div id="notes" class="notes-card">
+      <h2 class="section-title">📌 Notes</h2>
+      <ul class="notes-list">
+        <li>Page must have <code>pages_messaging</code> permission</li>
+        <li>User must have messaged page first</li>
+        <li>Works for Graph API v23</li>
+      </ul>
+    </div>
+
+    <!-- Credit Section -->
+    <div id="credit" class="credit-box">
+      <div class="credit-title">✍️ Credit</div>
+      <div class="credit-name">Written by Vai Mehedi Hasan</div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-container">
+      <button class="action-btn" onclick="copyAllContent()">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+          <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+        </svg>
+        <span>📋 Copy Content</span>
+      </button>
+      <button id="btn-bottom-share" class="action-btn secondary" onclick="shareLink()">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+        </svg>
+        <span>🔗 Share Link</span>
+      </button>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
+      <div class="brand-logo" style="width: 20px; height: 20px;">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 62 V0 H28 A16 16 0 0 1 44 16 V62 Z" fill="currentColor"/>
+          <rect x="12" y="68" width="32" height="32" fill="#38bdf8" rx="0"/>
+          <path d="M50 100 V68 H79 A16 16 0 0 1 95 84 V100 Z" fill="currentColor"/>
+        </svg>
+      </div>
+      <p class="footer-text" style="font-weight: 600; letter-spacing: -0.01em;">Learny AI Academy</p>
+    </div>
+    <p class="footer-text">Built by Mehedi Hasan | Learny AI Academy</p>
+  </footer>
+
+  <script>
+    // Theme Management
+    function toggleTheme() {
+      const currentTheme = document.body.getAttribute('data-theme') || 'dark';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.body.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    }
+
+    function updateThemeIcon(theme) {
+      const sunIcon = document.getElementById('theme-icon-sun');
+      const moonIcon = document.getElementById('theme-icon-moon');
+      if (theme === 'dark') {
+        sunIcon.style.display = 'block';
+        moonIcon.style.display = 'none';
+      } else {
+        sunIcon.style.display = 'none';
+        moonIcon.style.display = 'block';
+      }
+    }
+
+    // Initialize Theme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.body.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+
+
+    // Interactive Table Parameters Binding
+    const values = {
+      PAGE_ID: '<PAGE_ID>',
+      PAGE_ACCESS_TOKEN: '<PAGE_ACCESS_TOKEN>',
+      USER_ID: '<USER_ID>',
+      IMAGE_URL: '<IMAGE_URL>',
+      VIDEO_URL: '<VIDEO_URL>'
+    };
+
+    function updatePlaceholders() {
+      document.querySelectorAll('.token-ph').forEach(el => {
+        const ph = el.dataset.ph;
+        const val = values[ph];
+        el.textContent = val;
+        if (val !== `<${ph}>`) {
+          el.classList.add('customized');
+        } else {
+          el.classList.remove('customized');
+        }
+      });
+    }
+
+    document.querySelectorAll('[data-ph-input]').forEach(input => {
+      input.addEventListener('input', (e) => {
+        const ph = e.target.dataset.phInput;
+        let val = e.target.value.trim();
+        if (!val) {
+          val = `<${ph}>`;
+          e.target.classList.remove('has-value');
+        } else {
+          e.target.classList.add('has-value');
+        }
+        values[ph] = val;
+        updatePlaceholders();
+      });
+    });
+
+
+    // Code Copying Utilities
+    function copyCode(btn, codeId) {
+      const codeEl = document.getElementById(codeId);
+      const text = codeEl.textContent.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = `
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--success-color);"><path d="M20 6L9 17l-5-5"/></svg>
+          <span style="color: var(--success-color);">Copied!</span>
+        `;
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.innerHTML = originalHtml;
+          btn.classList.remove('copied');
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy text: ', err);
+      });
+    }
+
+    // Copy combined contents of all 3 blocks
+    function copyAllContent() {
+      const code1 = document.getElementById('code1').textContent.trim();
+      const code2 = document.getElementById('code2').textContent.trim();
+      const code3 = document.getElementById('code3').textContent.trim();
+      
+      const combined = `# 1) Send Text Message\n${code1}\n\n# 2) Send Image Message\n${code2}\n\n# 3) Send Video Message\n${code3}`;
+      
+      navigator.clipboard.writeText(combined).then(() => {
+        const topBtn = document.getElementById('btn-copy-all');
+        const originalTopHtml = topBtn.innerHTML;
+        
+        // Update top-bar copy button
+        topBtn.innerHTML = `
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--success-color);"><path d="M20 6L9 17l-5-5"/></svg>
+          <span class="tooltip">Copied All!</span>
+        `;
+        
+        // Update bottom copy button if it exists
+        const bottomBtn = document.querySelector('.action-btn:not(.secondary)');
+        const originalBottomHtml = bottomBtn.innerHTML;
+        bottomBtn.innerHTML = `
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+          <span>All Copied!</span>
+        `;
+        bottomBtn.classList.add('copied');
+
+        setTimeout(() => {
+          topBtn.innerHTML = originalTopHtml;
+          bottomBtn.innerHTML = originalBottomHtml;
+          bottomBtn.classList.remove('copied');
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy text: ', err);
+      });
+    }
+
+    // Share link copier
+    function shareLink() {
+      const url = window.location.href;
+      navigator.clipboard.writeText(url).then(() => {
+        const topBtn = document.getElementById('btn-share');
+        const originalTopHtml = topBtn.innerHTML;
+        
+        // Update top share button tooltip
+        topBtn.innerHTML = `
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--success-color);"><path d="M20 6L9 17l-5-5"/></svg>
+          <span class="tooltip">Link Copied!</span>
+        `;
+
+        // Update bottom share button if it exists
+        const bottomBtn = document.getElementById('btn-bottom-share');
+        const originalBottomHtml = bottomBtn.innerHTML;
+        bottomBtn.innerHTML = `
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+          <span>Link Copied!</span>
+        `;
+        bottomBtn.classList.add('copied');
+
+        setTimeout(() => {
+          topBtn.innerHTML = originalTopHtml;
+          bottomBtn.innerHTML = originalBottomHtml;
+          bottomBtn.classList.remove('copied');
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy URL: ', err);
+      });
+    }
+  </script>
+</body>
+</html>

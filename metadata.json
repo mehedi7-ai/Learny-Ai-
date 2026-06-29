@@ -1,0 +1,6 @@
+{
+  "name": "Messenger Chatbot Curl Command by Learniy AI Academy",
+  "description": "A landing page detailing simple cURL commands to send text, image, and video messages using Facebook Graph API v23.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
